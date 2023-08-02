@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.context.annotation.Import;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.extern.slf4j.Slf4j;
 import tw.niq.example.config.DatabaseConfig;
 import tw.niq.example.domain.Beer;
@@ -31,6 +34,12 @@ class BeerRepositoryTest {
 				.quantityOnHand(12)
 				.upc("123456")
 				.build();
+	}
+	
+	@Test
+	void testCreateJson() throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		log.info(objectMapper.writeValueAsString(beer));
 	}
 
 	@Test
