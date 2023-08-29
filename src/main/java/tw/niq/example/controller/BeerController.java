@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -45,21 +46,21 @@ public class BeerController {
 						.build());
 	}
 	
-	@PostMapping(BEER_PATH_ID)
+	@PutMapping(BEER_PATH_ID)
 	Mono<ResponseEntity<Void>> updateBeer(@PathVariable("beerId") Integer beerId, @Validated @RequestBody BeerDto beerDto) {
 		return beerService.updateBeer(beerId, beerDto)
-				.map(updatedBeer -> ResponseEntity.ok().build());
+				.map(updatedBeer -> ResponseEntity.noContent().build());
 	}
 	
 	@PatchMapping(BEER_PATH_ID)
 	Mono<ResponseEntity<Void>> patchBeer(@PathVariable("beerId") Integer beerId, @Validated @RequestBody BeerDto beerDto) {
 		return beerService.patchBeer(beerId, beerDto)
-				.map(patchedBeer -> ResponseEntity.ok().build());
+				.map(patchedBeer -> ResponseEntity.noContent().build());
 	}
 	
 	@DeleteMapping(BEER_PATH_ID)
 	Mono<ResponseEntity<Void>> deleteBeerById(@PathVariable("beerId") Integer beerId) {
-		return beerService.deleteBeerById(beerId).map(response ->  ResponseEntity.noContent().build());
+		return beerService.deleteBeerById(beerId).thenReturn(ResponseEntity.noContent().build());
 	}
 	
 }

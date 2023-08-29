@@ -18,33 +18,34 @@ import tw.niq.example.domain.Beer;
 @Slf4j
 @DataR2dbcTest
 @Import(DatabaseConfig.class)
-class BeerRepositoryTest {
+public class BeerRepositoryTest {
 	
 	@Autowired
 	BeerRepository beerRepository;
 	
-	Beer beer;
-
 	@BeforeEach
 	void setUp() throws Exception {
-		beer = Beer.builder()
-				.beerName("Space Dust")
-				.beerStyle("IPA")
-				.price(BigDecimal.TEN)
-				.quantityOnHand(12)
-				.upc("123456")
-				.build();
+	}
+	
+	public static Beer getTestBeer() {
+		return Beer.builder()
+			.beerName("Space Dust")
+			.beerStyle("IPA")
+			.price(BigDecimal.TEN)
+			.quantityOnHand(12)
+			.upc("123456")
+			.build();
 	}
 	
 	@Test
 	void testCreateJson() throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
-		log.info(objectMapper.writeValueAsString(beer));
+		log.info(objectMapper.writeValueAsString(getTestBeer()));
 	}
 
 	@Test
 	void testSaveBeer() {
-		beerRepository.save(beer)
+		beerRepository.save(getTestBeer())
 			.subscribe(beer -> log.info(beer.toString()));
 	}
 
